@@ -1,6 +1,9 @@
 import Link from "next/link";
 import { ArrowRight, Layers3, ShieldCheck } from "lucide-react";
 import { toolPages } from "@/frontend/features/adbrief-pages/data/tool-pages";
+import { ToolsMenu } from "./tools-menu.client";
+
+const toolEntrances = toolPages.filter((page) => page.kind !== "brief");
 
 export function SiteHeader() {
   return (
@@ -15,16 +18,8 @@ export function SiteHeader() {
           </span>
         </Link>
 
-        <nav className="hidden items-center gap-1 lg:flex" aria-label="Primary navigation">
-          {toolPages.map((page) => (
-            <Link
-              key={page.path}
-              href={page.path}
-              className="rounded-full px-3 py-2 text-sm font-medium text-[#505346] transition hover:bg-[#eef0df] hover:text-[#181a14]"
-            >
-              {page.navLabel}
-            </Link>
-          ))}
+        <nav className="hidden items-center gap-1 md:flex" aria-label="Primary navigation">
+          <ToolsMenu tools={toolEntrances} />
         </nav>
 
         <div className="flex items-center gap-2">
@@ -35,7 +30,7 @@ export function SiteHeader() {
             Generate Brief
           </Link>
           <Link
-            href="/tiktok-transcript-generator"
+            href="/ugc-brief-generator"
             className="inline-flex items-center gap-2 rounded-full bg-[#181a14] px-4 py-2 text-sm font-semibold text-[#fbfaf3] shadow-[0_12px_28px_rgba(24,26,20,0.18)] transition hover:-translate-y-0.5 hover:bg-[#2b2f20]"
           >
             Start free

@@ -3,6 +3,7 @@ import { ArrowRight, CheckCircle2, FileText, Sparkles } from "lucide-react";
 import { SectionShell } from "@/frontend/components/section-shell";
 import { SiteFooter, SiteHeader } from "@/frontend/components/site-chrome";
 import type { ToolPageConfig } from "../types";
+import { MinimalBriefWorkbench } from "./minimal-brief-workbench.client";
 import { ToolWorkbench } from "./tool-workbench.client";
 
 type AdbriefToolPageProps = {
@@ -10,6 +11,14 @@ type AdbriefToolPageProps = {
 };
 
 export function AdbriefToolPage({ config }: AdbriefToolPageProps) {
+  const isBriefPage = config.kind === "brief";
+  const headline = isBriefPage
+    ? "Turn a competitor TikTok into a UGC brief"
+    : config.headline;
+  const subheadline = isBriefPage
+    ? "Paste a competitor video, add your product, and get a shoot-ready brief with hooks, script, shot list, and creator notes."
+    : config.subheadline;
+
   return (
     <div className="min-h-screen bg-[#fbfaf3] text-[#181a14]">
       <SiteHeader />
@@ -19,39 +28,47 @@ export function AdbriefToolPage({ config }: AdbriefToolPageProps) {
           <div className="absolute inset-0 -z-10 bg-[linear-gradient(rgba(24,26,20,0.045)_1px,transparent_1px),linear-gradient(90deg,rgba(24,26,20,0.045)_1px,transparent_1px)] bg-[size:36px_36px]" />
 
           <div className="mx-auto w-full max-w-7xl">
-            <div className="mb-8 grid gap-7 lg:grid-cols-[0.88fr_0.52fr] lg:items-end">
-              <div>
+            <div
+              className={
+                isBriefPage
+                  ? "mx-auto mb-8 max-w-4xl text-center"
+                  : "mb-8 grid gap-7 lg:grid-cols-[0.88fr_0.52fr] lg:items-end"
+              }
+            >
+              <div className={isBriefPage ? "grid justify-items-center" : undefined}>
                 <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#181a14]/10 bg-[#fffffb]/78 px-3 py-2 text-xs font-bold uppercase tracking-[0.18em] text-[#5f6d1c] shadow-[0_10px_30px_rgba(24,26,20,0.06)]">
                   <Sparkles className="size-3.5" aria-hidden="true" />
                   {config.eyebrow}
                 </div>
                 <h1 className="max-w-4xl text-4xl font-semibold tracking-tight text-[#181a14] sm:text-6xl lg:text-7xl">
-                  {config.headline}
+                  {headline}
                 </h1>
                 <p className="mt-5 max-w-2xl text-base leading-8 text-[#575b4d] sm:text-lg">
-                  {config.subheadline}
+                  {subheadline}
                 </p>
               </div>
 
-              <div className="rounded-xl border border-[#181a14]/10 bg-[#fffffb]/86 p-5 shadow-[0_22px_70px_rgba(24,26,20,0.09)]">
-                <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#6e7f1d]">
-                  Product principle
-                </p>
-                <p className="mt-3 text-lg font-semibold leading-7 text-[#181a14]">
-                  Analyze creative structure. Generate original briefs. Do not copy videos.
-                </p>
-                <div className="mt-5 grid gap-2 text-sm text-[#626657]">
-                  {["No video downloading", "No competitor copy-paste", "Claims stay reviewable"].map((item) => (
-                    <div key={item} className="flex items-center gap-2">
-                      <CheckCircle2 className="size-4 text-[#6e7f1d]" aria-hidden="true" />
-                      {item}
-                    </div>
-                  ))}
+              {!isBriefPage ? (
+                <div className="rounded-xl border border-[#181a14]/10 bg-[#fffffb]/86 p-5 shadow-[0_22px_70px_rgba(24,26,20,0.09)]">
+                  <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#6e7f1d]">
+                    Product principle
+                  </p>
+                  <p className="mt-3 text-lg font-semibold leading-7 text-[#181a14]">
+                    Analyze creative structure. Generate original briefs. Do not copy videos.
+                  </p>
+                  <div className="mt-5 grid gap-2 text-sm text-[#626657]">
+                    {["No video downloading", "No competitor copy-paste", "Claims stay reviewable"].map((item) => (
+                      <div key={item} className="flex items-center gap-2">
+                        <CheckCircle2 className="size-4 text-[#6e7f1d]" aria-hidden="true" />
+                        {item}
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              ) : null}
             </div>
 
-            <ToolWorkbench config={config} />
+            {isBriefPage ? <MinimalBriefWorkbench /> : <ToolWorkbench config={config} />}
           </div>
         </section>
 
